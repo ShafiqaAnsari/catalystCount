@@ -1,0 +1,70 @@
+{% extends './base.html' %}
+{% block mycontent %}
+
+<h2>Query Builder</h2>
+
+<form method = "GET" action="{% url 'myapp:query-builder' %}">
+<input type = "text" name = "keyword" placeholder="keyword" id = "Keyword" value = "{{ request.GET.keyword }}"">
+
+<select name="industry" id="industry">
+<option value = "">Select Industry</option>
+<option value="Technology" {% if request.GET.industry == 'Technology' %}selected{% endif %}>Technology</option>
+<option value="Finance" {% if request.GET.industry == 'Finance' %}selected{% endif %}>Finance</option>
+<option value="Healthcare" {% if request.GET.industry == 'Healthcare' %}selected{% endif %}>Healthcare</option>
+</select>
+<select name="year_founded" id="year_founded">
+    <option value="">Select Year</option>
+    <option value="1990" {% if request.GET.year_founded == '1990' %}selected{% endif %}>1990</option>
+    <option value="2000" {% if request.GET.year_founded == '2000' %}selected{% endif %}>2000</option>
+    <option value="2010" {% if request.GET.year_founded == '2010' %}selected{% endif %}>2010</option>
+</select>
+
+<br><br>
+
+<select name="city" id="city">
+    <option value="">Select City</option>
+    <option value="Mumbai" {% if request.GET.city == 'Germany' %}selected{% endif %}>Mumbai</option>
+    <option value="Chandigarh" {% if request.GET.city == 'Chandigarh' %}selected{% endif %}>Chandigarh</option>
+    <option value="Dubai" {% if request.GET.city == 'Dubai' %}selected{% endif %}>Dubai</option>
+</select>
+<select name="state" id="state">
+    <option value="">Select State</option>
+    <option value="Dubai" {% if request.GET.state == 'Dubai' %}selected{% endif %}>Dubai</option>
+    <option value="Maharashtra" {% if request.GET.state == 'Maharashtra' %}selected{% endif %}>Maharashtra</option>
+    <option value="Punjab" {% if request.GET.state == 'Punjab' %}selected{% endif %}>Punjab</option>
+</select>
+<select name="country" id="country">
+    <option value="">Select Country</option>
+    <option value="Germany" {% if request.GET.country == 'Germany' %}selected{% endif %}>Germany</option>
+    <option value="UAE" {% if request.GET.country == 'UAE' %}selected{% endif %}>UAE</option>
+    <option value="India" {% if request.GET.country == 'India' %}selected{% endif %}>India</option>
+</select>
+
+<br>
+
+<!-- Employees Range Input -->
+<label for="employees_from">Employees From:</label>
+<input type="number" name="employees_from" id="employees_from" value="{{ request.GET.employees_from }}">
+
+<label for="employees_to">Employees To:</label>
+<input type="number" name="employees_to" id="employees_to" value="{{ request.GET.employees_to }}">
+
+<br><br>
+
+<button type="submit">Query Date</button>
+<button type="reset">Reset</button>
+</form>
+
+<h2>Filtered Results ({{ company_count }} companies)</h2>
+
+    <ul>
+    {% for company in companies %}
+        <li>{{ company.name }} - {{ company.industry }} - {{ company.city }} - {{ company.employees }} employees</li>
+    {% empty %}
+        <li>No companies found matching the filters.</li>
+    {% endfor %}
+    </ul>
+
+
+
+{% endblock %}
